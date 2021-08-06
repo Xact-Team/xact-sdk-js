@@ -1,0 +1,36 @@
+{
+  "name": "@xact-wallet-sdk/client",
+  "version": "0.1.0",
+  "description": "SDK for the xact-wallet application",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lerna-jest": "^0.5.4",
+    "rxjs": "^7.2.0",
+    "socket.io-client": "^3.0.0"
+  },
+  "keywords": [
+    "Xact",
+    "Hedera",
+    "Wallet",
+    "SDK"
+  ],
+  "author": "Schnouz <tailorweb.contact@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/client.js",
+  "typings": "lib/client.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  }
+}
