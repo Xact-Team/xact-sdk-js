@@ -3,7 +3,7 @@ import {RequestValidation} from './models/request.interface';
 import axios from 'axios';
 
 export const API_URL: string = 'https://api.xact.ac/v1';
-export const SOCKET_URL: string ='https://api.xact.ac';
+export const SOCKET_URL: string = 'https://api.xact.ac';
 
 import {io} from 'socket.io-client';
 import {PaymentDto} from './models/payment.interface';
@@ -25,7 +25,7 @@ export class Client {
     socket;
     clientId;
 
-    constructor(apiKey: string) {
+    constructor({apiKey, options = {}}) {
         axios.defaults.headers.common = {
             "Authorization": `X-API-KEY: ${apiKey}`,
         };
