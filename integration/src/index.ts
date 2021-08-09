@@ -2,7 +2,7 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
 
 (async () => {
     /* Construct an instance of Client */
-    const client = new Client("API_KEY");
+    const client = new Client({apiKey: "API_KEY"});
 
     /* Initialize the connexion */
     await client.initConnexion();
@@ -10,12 +10,12 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
     /* Generate QR Code in order to process authentication */
     const qrCodeMain = await client.generateQRCode();
 
-    /* Get new Connexions */
-    client.connect().subscribe((user: UserAccount) => {
+    /* Subscribe to new Connexions */
+    client.connect().subscribe(user => {
         console.log('new connexion', user);
     });
 
-    /* Get Xact Fees for sending Hbar */
+    /* Getting Xact Pay Fees */
     const hbarToSend = 5;
     const xactFees = client.getXactFeesPayment(hbarToSend);
 
@@ -24,8 +24,8 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
     const toAccountId = ""; /* Receiver */
     await client.pay({hbarToSend, fromAccountId, toAccountId});
 
-    /* Listen for Payment validation */
-    client.paymentValidation().subscribe((payment: PaymentValidation) => {
+    /* Subscribe to new Payments */
+    client.paymentValidation().subscribe(payment => {
         console.log(`the payment ${payment.amount}ħ from ${payment.fromAccountId} to ${payment.toAccountId}`);
     });
 
@@ -33,9 +33,21 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
     const tokenId = ""; /* Token to associate */
     await client.associate({fromAccountId, tokenId});
 
-    /* Listen for Associate Token */
-    client.associateValidation().subscribe((token: AssociateTokenValidation) => {
+    /* Subscribe to new Token Association */
+    client.associateValidation().subscribe(token => {
          console.log('new associated token', token);
+    });
+
+    /* Transfer Token */
+    const fromAccountId = '';
+    const toAccountId = '';
+    const tokenToTransfer = '';
+
+    await client.transfer({fromAccountId, toAccountId, tokenId: tokenToTransfer});
+
+    /* Subscribe to new Token Transfer */
+    client.transferValidation().subscribe(token => {
+        console.log('Transfer Token', token);
     });
 
 })()
