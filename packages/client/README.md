@@ -11,8 +11,8 @@
 ## Documentation
 
 Find the complete documentation :
-
-`https://xact.gitbook.io/xact/`
+  
+[GitBook](https://xact.gitbook.io/xact/)
 
 ## Usage
 
@@ -41,7 +41,7 @@ const fromAccountId = ""; /* Sender */
 const toAccountId = ""; /* Receiver */
 await client.pay({hbarToSend, fromAccountId, toAccountId});
 
-/* Listen for Payment validation */
+/* Subscribe to new Payments */
 client.paymentValidation().subscribe((payment: PaymentValidation) => {
     console.log(`the payment ${payment.amount}ħ from ${payment.fromAccountId} to ${payment.toAccountId}`);
 });
@@ -50,10 +50,28 @@ client.paymentValidation().subscribe((payment: PaymentValidation) => {
 const tokenId = ""; /* Token to associate */
 await client.associate({fromAccountId, tokenId});
 
-/* Listen for Associate Token */
+/* Subscribe to new Token Association */
 client.associateValidation().subscribe((token: AssociateTokenValidation) => {
      console.log('new associated token', token);
 });
+
+/* Transfer Token */
+const fromAccountId = '';
+const toAccountId = '';
+const tokenToTransfer = '';
+
+await client.transfer({fromAccountId, toAccountId, tokenId: tokenToTransfer});
+
+/* Subscribe to new Token Transfer */
+client.transferValidation().subscribe(token => {
+    console.log('Transfer Token', token);
+});
+
+/* Getting Xact Pay Fees */
+const xactPayFees = await client.getXactFeesPayment(hbarAmount);
+
+/* Getting Xact Transfer Fees */
+const xactTransferFees = await client.getXactFeesMintNFT();
 
 ```
 
