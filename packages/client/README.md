@@ -19,7 +19,7 @@ Find the complete documentation :
 ```
 /* Construct an instance of Client */
 
-const client = new Client("API_KEY"));
+const client = new Client({apiKey: "API_KEY"}));
 
 /* Initialize the connexion */
 await client.initConnexion();
