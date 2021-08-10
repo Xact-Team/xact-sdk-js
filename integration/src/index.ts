@@ -39,8 +39,6 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
     });
 
     /* Transfer Token */
-    const fromAccountId = '';
-    const toAccountId = '';
     const tokenToTransfer = '';
 
     await client.transfer({fromAccountId, toAccountId, tokenId: tokenToTransfer});
@@ -48,6 +46,21 @@ import {Client, PaymentValidation, UserAccount} from '../../packages/client/src/
     /* Subscribe to new Token Transfer */
     client.transferValidation().subscribe(token => {
         console.log('Transfer Token', token);
+    });
+
+
+    /* Create NFT */
+    const name = 'NFT Test';
+    const description = 'Description of my NFT';
+    const category = CategoryNFT.ART;
+    const creator = 'Johny.B';
+    const media = ''; /* base64 format */
+    const supply = 1; /* Nb of NFT available */
+    await client.createNFT({fromAccountId, name, description, category, creator, media, supply});
+
+    /* Subscribe to new Create NFT Validation */
+    client.createNFTValidation().subscribe(nft => {
+        console.log('NFT Created', nft);
     });
 
 })()
