@@ -122,9 +122,17 @@ export class Client {
      *  Create a NFT
      * @param createNFTDto
      */
-    createNFT(createNFTDto: CreateNFTDto): Promise<string> {
+    async createNFT(createNFTDto: CreateNFTDto): Promise<string> {
         return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/create-nft`, {
             ...createNFTDto,
+            nft: {
+                name: createNFTDto.name,
+                description: createNFTDto.description,
+                creator: createNFTDto.creator,
+                supply: createNFTDto.supply,
+                category: createNFTDto.category,
+            },
+            fromAccountId: createNFTDto.fromAccountId,
             clientId: this.clientId
         });
     }
@@ -161,5 +169,12 @@ export class Client {
      */
     transferValidation() {
         return listenForEvent<RequestValidation<TokenTransferDto>>(this.socket, 'xact.transfer');
+    }
+
+    /**
+     * Waiting for Create NFT Validation
+     */
+    createNFTValidation() {
+        return listenForEvent<RequestValidation<CreateNFTDto>>(this.socket, 'xact.create');
     }
 }
