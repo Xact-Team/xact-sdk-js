@@ -12,14 +12,14 @@
 
 Find the complete documentation :
 
-`https://xact.gitbook.io/xact/`
+[GitBook](https://xact.gitbook.io/xact/)
 
 ## Usage
 
 ```
 /* Construct an instance of Client */
 
-const client = new Client("API_KEY"));
+const client = new Client({apiKey: "API_KEY"}));
 
 /* Initialize the connexion */
 await client.initConnexion();
@@ -41,7 +41,7 @@ const fromAccountId = ""; /* Sender */
 const toAccountId = ""; /* Receiver */
 await client.pay({hbarToSend, fromAccountId, toAccountId});
 
-/* Listen for Payment validation */
+/* Subscribe to new Payments */
 client.paymentValidation().subscribe((payment: PaymentValidation) => {
     console.log(`the payment ${payment.amount}ħ from ${payment.fromAccountId} to ${payment.toAccountId}`);
 });
@@ -50,10 +50,45 @@ client.paymentValidation().subscribe((payment: PaymentValidation) => {
 const tokenId = ""; /* Token to associate */
 await client.associate({fromAccountId, tokenId});
 
-/* Listen for Associate Token */
+/* Subscribe to new Token Association */
 client.associateValidation().subscribe((token: AssociateTokenValidation) => {
      console.log('new associated token', token);
 });
+
+/* Transfer Token */
+const fromAccountId = '';
+const toAccountId = '';
+const tokenToTransfer = '';
+
+await client.transfer({fromAccountId, toAccountId, tokenId: tokenToTransfer});
+
+/* Subscribe to new Token Transfer */
+client.transferValidation().subscribe(token => {
+    console.log('Transfer Token', token);
+});
+
+/* Create NFT */
+const name = 'NFT Test';
+const description = 'Description of my NFT';
+const category = CategoryNFT.ART;
+const creator = 'Johny.B';
+const media = ''; /* base64 format */
+const supply = 1; /* Nb of NFT available */
+await client.createNFT({fromAccountId, name, description, category, creator, media, supply});
+
+/* Subscribe to new Create NFT Validation */
+client.createNFTValidation().subscribe(nft => {
+    console.log('NFT Created', nft);
+});
+
+/* Getting Xact Pay Fees */
+const xactPayFees = await client.getXactFeesPayment(hbarAmount);
+
+/* Getting Xact Transfer Fees */
+const xactTransferFees = await client.getXactFeesTransfer();
+
+/* Getting Xact Create NFT Fees */
+const xactTransferFees = await client.getXactFeesCreateNFT();
 
 ```
 

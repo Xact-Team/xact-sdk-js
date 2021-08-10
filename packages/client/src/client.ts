@@ -3,7 +3,7 @@ import {RequestValidation} from './models/request.interface';
 import axios from 'axios';
 
 export const API_URL: string = 'https://api.xact.ac/v1';
-export const SOCKET_URL: string ='https://api.xact.ac';
+export const SOCKET_URL: string = 'https://api.xact.ac';
 
 import {io} from 'socket.io-client';
 import {PaymentDto} from './models/payment.interface';
@@ -25,7 +25,7 @@ export class Client {
     socket;
     clientId;
 
-    constructor(apiKey: string) {
+    constructor({apiKey, options = {}}) {
         axios.defaults.headers.common = {
             "Authorization": `X-API-KEY: ${apiKey}`,
         };
@@ -122,9 +122,17 @@ export class Client {
      *  Create a NFT
      * @param createNFTDto
      */
-    createNFT(createNFTDto: CreateNFTDto): Promise<string> {
+    async createNFT(createNFTDto: CreateNFTDto): Promise<string> {
         return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/create-nft`, {
             ...createNFTDto,
+            nft: {
+                name: createNFTDto.name,
+                description: createNFTDto.description,
+                creator: createNFTDto.creator,
+                supply: createNFTDto.supply,
+                category: createNFTDto.category,
+            },
+            fromAccountId: createNFTDto.fromAccountId,
             clientId: this.clientId
         });
     }
@@ -161,5 +169,12 @@ export class Client {
      */
     transferValidation() {
         return listenForEvent<RequestValidation<TokenTransferDto>>(this.socket, 'xact.transfer');
+    }
+
+    /**
+     * Waiting for Create NFT Validation
+     */
+    createNFTValidation() {
+        return listenForEvent<RequestValidation<CreateNFTDto>>(this.socket, 'xact.create');
     }
 }

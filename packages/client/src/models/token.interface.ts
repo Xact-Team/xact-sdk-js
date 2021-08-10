@@ -1,4 +1,3 @@
-
 export class TokenAssociateDto {
     /* AccountId that associate the token */
     fromAccountId: string;
@@ -17,20 +16,28 @@ export class TokenTransferDto {
     supply: number
 }
 
+export enum CategoryNFT {
+    ART = 'Art',
+    DIGITAL_ART = 'Digital art',
+    MUSIC = "Music",
+    COLLECTIBLE = "Collectible",
+    DOCUMENT = "Document",
+    OTHER = "Other",
+}
 
 export class CreateNFTDto {
-    /* Name of the Token */
+    /* Name of the NFT */
     name: string;
-    /* Description of the Token */
+    /* Description of the NFT */
     description: string;
-    /* Category of the Token */
-    category: string;
-    /* Creator of the Token */
+    /* Category of the NFT */
+    category: CategoryNFT;
+    /* Creator of the NFT */
     creator: string;
-    /* Media to linked to the NFT - Must be in base64 */
-    media: string; /* base 64*/
-    /* NFT's Quantity */
-    supply: string;
+    /* Media to linked to the NFT - base64 Format */
+    media: string;
+    /* Quantity of NFT to create */
+    supply: number;
     /* Which Account ID issue the NFT's Creation */
     fromAccountId: string;
 }
