@@ -11,7 +11,7 @@
 ## Documentation
 
 Find the complete documentation :
-  
+
 [GitBook](https://xact.gitbook.io/xact/)
 
 ## Usage
@@ -67,11 +67,28 @@ client.transferValidation().subscribe(token => {
     console.log('Transfer Token', token);
 });
 
+/* Create NFT */
+const name = 'NFT Test';
+const description = 'Description of my NFT';
+const category = CategoryNFT.ART;
+const creator = 'Johny.B';
+const media = ''; /* base64 format */
+const supply = 1; /* Nb of NFT available */
+await client.createNFT({fromAccountId, name, description, category, creator, media, supply});
+
+/* Subscribe to new Create NFT Validation */
+client.createNFTValidation().subscribe(nft => {
+    console.log('NFT Created', nft);
+});
+
 /* Getting Xact Pay Fees */
 const xactPayFees = await client.getXactFeesPayment(hbarAmount);
 
 /* Getting Xact Transfer Fees */
-const xactTransferFees = await client.getXactFeesMintNFT();
+const xactTransferFees = await client.getXactFeesTransfer();
+
+/* Getting Xact Create NFT Fees */
+const xactTransferFees = await client.getXactFeesCreateNFT();
 
 ```
 
