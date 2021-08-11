@@ -3,5 +3,11 @@
     "packages/*"
   ],
   "version": "0.1.2",
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "conventionalCommits": true,
+      "yes": true
+    }
+  }
 }
