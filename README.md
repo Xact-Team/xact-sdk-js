@@ -1,6 +1,4 @@
-# TypeScript starter for Lerna based projects
-
-- https://github.com/lerna/lerna
+# Xact SDK
 
 ## Installation
 
