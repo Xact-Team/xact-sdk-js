@@ -19,4 +19,5 @@ export type Scope = ScopeEnum[];
 
 export enum ScopeEnum {
     PROFILE = 'profile',
+    NFT = 'nft',
 }
