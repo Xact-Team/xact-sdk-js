@@ -7,4 +7,6 @@ export enum StatusRequest {
 
 export type RequestValidation<T> = T & {
     status: StatusRequest;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
 }

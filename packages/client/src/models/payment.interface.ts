@@ -25,4 +25,6 @@ export class PaymentDto {
     middleMen?: MiddleManPayment[];
     /* Support the Xact Team - round up fees */
     supportXact?: boolean;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
 }
