@@ -6,7 +6,7 @@ export class UserAccount {
     /* Profile Link to the user - Add SCOPE.PROFILE to scope*/
     profile: ProfileAccount | null;
     /* NFT Link to the user - Add SCOPE.NFT to scope */
-    nft: NFT | null;
+    nft: NFT[] | null;
     /* Environment Used */
     environment: HederaEnvironment;
 }
