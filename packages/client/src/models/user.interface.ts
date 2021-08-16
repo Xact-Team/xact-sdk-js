@@ -4,9 +4,9 @@ export class UserAccount {
     /* Balance of the user in hbar */
     balance: string;
     /* Profile Link to the user - Add SCOPE.PROFILE to scope*/
-    profile?: ProfileAccount;
+    profile: ProfileAccount | null;
     /* NFT Link to the user - Add SCOPE.NFT to scope */
-    nft?: NFT;
+    nft: NFT | null;
     /* Environment Used */
     environment: HederaEnvironment;
 }
