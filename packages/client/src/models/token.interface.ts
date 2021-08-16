@@ -1,3 +1,5 @@
+import {NFT} from './user.interface';
+
 export class TokenAssociateDto {
     /* AccountId that associate the token */
     fromAccountId: string;
@@ -16,6 +18,30 @@ export class TokenTransferDto {
     tokenId: string;
     /* Supply */
     supply: number;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
+}
+
+export class SellNFTDto {
+    /* Account ID of the seller */
+    accountId: string;
+    /* Unit Price per NFT in Hbar */
+    hbarAmount: number;
+    /* Quantity to Sell */
+    quantity: number;
+    /* NFT */
+    nft: NFT;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
+}
+
+export class BuyNFTDto {
+    /* Account ID of the Buyer */
+    accountId: string;
+    /* Quantity to Buy */
+    quantity: number;
+    /* NFT */
+    nft: NFT;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
