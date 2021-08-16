@@ -4,7 +4,7 @@ import axios from 'axios';
 import {io} from 'socket.io-client';
 import {PaymentDto} from './models/payment.interface';
 import {GenerateQrCodeOpts, ScopeEnum, UserAccount} from './models/user.interface';
-import {CreateNFTDto, TokenAssociateDto, TokenTransferDto,} from './models/token.interface';
+import {BuyNFTDto, CreateNFTDto, SellNFTDto, TokenAssociateDto, TokenTransferDto,} from './models/token.interface';
 import {ApiCall, listenForEvent} from './helpers/utils';
 
 export const API_URL: string = 'https://api.xact.ac/v1';
@@ -108,7 +108,7 @@ export class Client {
     }
 
     /**
-     * Get Xact Fees to Mint NFT
+     * Get Xact Fees to Create NFT
      */
     getXactFeesCreateNFT(): Promise<number> {
         return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/create-token`);
@@ -134,6 +134,34 @@ export class Client {
         });
     }
 
+    /**
+     * Sell a NFT
+     */
+    sellNFT(sellNFT: SellNFTDto): Promise<string> {
+        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/sell-nft`, {
+            ...sellNFT,
+            clientId: this.clientId
+        });
+    }
+
+    /**
+     * Get Xact Fees to Buy a NFT
+     * @param hbarAmount
+     * @param supportXact
+     */
+    getXactFeesBuyNFT(hbarAmount: number, supportXact: boolean = false): Promise<number> {
+        return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/buy-nft?amount=${hbarAmount}&support=${supportXact}`);
+    }
+
+    /**
+     * Buy a NFT
+     */
+    buyNFT(buyNFT: SellNFTDto): Promise<string> {
+        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/buy-nft`, {
+            ...buyNFT,
+            clientId: this.clientId
+        });
+    }
 
     /*************************************************************/
     /************************* LISTENERS *************************/
@@ -169,9 +197,23 @@ export class Client {
     }
 
     /**
-     * Waiting for Create NFT Validation
+     * Waiting for NFT Create Validation
      */
     createNFTValidation() {
         return listenForEvent<RequestValidation<CreateNFTDto>>(this.socket, 'xact.create');
+    }
+
+    /**
+     * Waiting for NFT Sell Validation
+     */
+    sellNFTValidation() {
+        return listenForEvent<RequestValidation<SellNFTDto>>(this.socket, 'xact.sellNFT');
+    }
+
+    /**
+     * Waiting for NFT Buy Validation
+     */
+    buyNFTValidation() {
+        return listenForEvent<RequestValidation<BuyNFTDto>>(this.socket, 'xact.buyNFT');
     }
 }
