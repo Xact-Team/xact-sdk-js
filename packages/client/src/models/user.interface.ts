@@ -1,3 +1,5 @@
+import {CategoryNFT} from './token.interface';
+
 export class UserAccount {
     /* AccountId of the user */
     accountId: string;
@@ -12,12 +14,19 @@ export class UserAccount {
 }
 
 export interface NFT {
+    /* Name of the NFT */
     name: string;
+    /* Description of the NFT */
     description: string;
-    category: string;
+    /* Category of the NFT */
+    category: CategoryNFT;
+    /* Creator of the NFT */
     creator: string;
-    url: string;
+    /* Url of the NFT */
+    url?: string;
+    /* Nb of Supply of the NFT */
     supply: number;
+    /* NFT is in Sell ? */
     inSell: boolean;
 }
 
