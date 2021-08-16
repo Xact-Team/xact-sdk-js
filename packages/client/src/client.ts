@@ -18,7 +18,7 @@ export * from './models/token.interface';
 
 export class Client {
     private readonly socket;
-    clientId;
+    private clientId;
 
     constructor({apiKey, options = {}}) {
         axios.defaults.headers.common = {
@@ -71,8 +71,8 @@ export class Client {
      * Send hbar
      * @param paymentDto
      */
-    pay(paymentDto: PaymentDto): Promise<number> {
-        return ApiCall<number>(this.clientId, 'POST', `${API_URL}/xact/pay`, {
+    pay(paymentDto: PaymentDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/pay`, {
             ...paymentDto,
             clientId: this.clientId
         });
@@ -82,8 +82,8 @@ export class Client {
      * Associate a token
      * @param tokenAssociationDto
      */
-    associate(tokenAssociationDto: TokenAssociateDto): Promise<string> {
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/associate-token`, {
+    associate(tokenAssociationDto: TokenAssociateDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/associate-token`, {
             ...tokenAssociationDto,
             clientId: this.clientId
         });
@@ -100,8 +100,8 @@ export class Client {
      * Transfer a token
      * @param tokenTransferDto
      */
-    transfer({fromAccountId, toAccountId, tokenId, supply = 1, socketId}: TokenTransferDto): Promise<string> {
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/transfer-token`, {
+    transfer({fromAccountId, toAccountId, tokenId, supply = 1, socketId}: TokenTransferDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/transfer-token`, {
             fromAccountId, toAccountId, tokenId, supply, socketId,
             clientId: this.clientId
         });
@@ -118,8 +118,8 @@ export class Client {
      *  Create a NFT
      * @param createNFTDto
      */
-    async createNFT(createNFTDto: CreateNFTDto): Promise<string> {
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/create-nft`, {
+    async createNFT(createNFTDto: CreateNFTDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/create-nft`, {
             ...createNFTDto,
             nft: {
                 name: createNFTDto.name,
@@ -137,8 +137,8 @@ export class Client {
     /**
      * Sell a NFT
      */
-    sellNFT(sellNFT: SellNFTDto): Promise<string> {
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/sell-nft`, {
+    sellNFT(sellNFT: SellNFTDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/sell-nft`, {
             ...sellNFT,
             clientId: this.clientId
         });
@@ -156,8 +156,8 @@ export class Client {
     /**
      * Buy a NFT
      */
-    buyNFT(buyNFT: SellNFTDto): Promise<string> {
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/buy-nft`, {
+    buyNFT(buyNFT: SellNFTDto): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/buy-nft`, {
             ...buyNFT,
             clientId: this.clientId
         });
