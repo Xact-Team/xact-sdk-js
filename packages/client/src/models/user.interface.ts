@@ -3,10 +3,22 @@ export class UserAccount {
     accountId: string;
     /* Balance of the user in hbar */
     balance: string;
-    /* Profile Link to the user */
+    /* Profile Link to the user - Add SCOPE.PROFILE to scope*/
     profile?: ProfileAccount;
+    /* NFT Link to the user - Add SCOPE.NFT to scope */
+    nft?: NFT;
     /* Environment Used */
-    environment: HederaEnvironment
+    environment: HederaEnvironment;
+}
+
+export interface NFT {
+    name: string;
+    description: string;
+    category: string;
+    creator: string;
+    url: string;
+    supply: number;
+    inSell: boolean;
 }
 
 export enum HederaEnvironment {
