@@ -3,6 +3,8 @@ export class TokenAssociateDto {
     fromAccountId: string;
     /* Token to Associate */
     tokenId: string;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
 }
 
 export class TokenTransferDto {
@@ -13,7 +15,9 @@ export class TokenTransferDto {
     /* Token to Transfer */
     tokenId: string;
     /* Supply */
-    supply: number
+    supply: number;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
 }
 
 export enum CategoryNFT {
@@ -40,5 +44,7 @@ export class CreateNFTDto {
     supply: number;
     /* Which Account ID issue the NFT's Creation */
     fromAccountId: string;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
 }
 

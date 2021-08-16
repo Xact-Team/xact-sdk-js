@@ -88,7 +88,7 @@ const xactPayFees = await client.getXactFeesPayment(hbarAmount);
 const xactTransferFees = await client.getXactFeesTransfer();
 
 /* Getting Xact Create NFT Fees */
-const xactTransferFees = await client.getXactFeesCreateNFT();
+const xactCreateNFTFees = await client.getXactFeesCreateNFT();
 
 ```
 

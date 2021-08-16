@@ -4,7 +4,14 @@ export class UserAccount {
     /* Balance of the user in hbar */
     balance: string;
     /* Profile Link to the user */
-    profile?: ProfileAccount
+    profile?: ProfileAccount;
+    /* Environment Used */
+    environment: HederaEnvironment
+}
+
+export enum HederaEnvironment {
+    MAINNET = 'mainnet',
+    TESTNET = 'testnet'
 }
 
 export class ProfileAccount {
@@ -19,4 +26,10 @@ export type Scope = ScopeEnum[];
 
 export enum ScopeEnum {
     PROFILE = 'profile',
+    NFT = 'nft',
+}
+
+export interface GenerateQrCodeOpts {
+    socketId?: string;
+    scope?: ScopeEnum[];
 }

@@ -1,19 +1,14 @@
 import {RequestValidation} from './models/request.interface';
 
 import axios from 'axios';
+import {io} from 'socket.io-client';
+import {PaymentDto} from './models/payment.interface';
+import {GenerateQrCodeOpts, ScopeEnum, UserAccount} from './models/user.interface';
+import {CreateNFTDto, TokenAssociateDto, TokenTransferDto,} from './models/token.interface';
+import {ApiCall, listenForEvent} from './helpers/utils';
 
 export const API_URL: string = 'https://api.xact.ac/v1';
 export const SOCKET_URL: string = 'https://api.xact.ac';
-
-import {io} from 'socket.io-client';
-import {PaymentDto} from './models/payment.interface';
-import {Scope, ScopeEnum, UserAccount} from './models/user.interface';
-import {
-    CreateNFTDto,
-    TokenAssociateDto,
-    TokenTransferDto,
-} from './models/token.interface';
-import {ApiCall, listenForEvent} from './helpers/utils';
 
 /* Export Interfaces */
 export * from './models/user.interface';
@@ -22,7 +17,7 @@ export * from './models/payment.interface';
 export * from './models/token.interface';
 
 export class Client {
-    socket;
+    private readonly socket;
     clientId;
 
     constructor({apiKey, options = {}}) {
@@ -53,11 +48,12 @@ export class Client {
 
     /**
      *  Generate a QR Code
-     * @param scope
+     * @param opts
      */
-    generateQRCode(scope = [ScopeEnum.PROFILE] as Scope): Promise<string> {
+    generateQRCode(opts?: GenerateQrCodeOpts): Promise<string> {
         return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/getQRCode`, {
-            scope: scope,
+            scope: (opts && opts.scope) ? opts.scope : [ScopeEnum.PROFILE],
+            socketId: (opts && opts.socketId) ? opts.socketId : null,
             clientId: this.clientId
         });
     }
@@ -104,9 +100,9 @@ export class Client {
      * Transfer a token
      * @param tokenTransferDto
      */
-    transfer({fromAccountId, toAccountId, tokenId, supply = 1}: TokenTransferDto): Promise<string> {
+    transfer({fromAccountId, toAccountId, tokenId, supply = 1, socketId}: TokenTransferDto): Promise<string> {
         return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/transfer-token`, {
-            fromAccountId, toAccountId, tokenId, supply,
+            fromAccountId, toAccountId, tokenId, supply, socketId,
             clientId: this.clientId
         });
     }
@@ -133,6 +129,7 @@ export class Client {
                 category: createNFTDto.category,
             },
             fromAccountId: createNFTDto.fromAccountId,
+            socketId: createNFTDto.socketId,
             clientId: this.clientId
         });
     }
