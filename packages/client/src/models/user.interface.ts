@@ -14,6 +14,8 @@ export class UserAccount {
 }
 
 export interface NFT {
+    /* Token Id of the NFT */
+    tokenId: string;
     /* Name of the NFT */
     name: string;
     /* Description of the NFT */
@@ -23,7 +25,9 @@ export interface NFT {
     /* Creator of the NFT */
     creator: string;
     /* Url of the NFT */
-    url?: string;
+    url: string;
+    /* cid of the NFT - When Store on IPFS */
+    cid: string;
     /* Nb of Supply of the NFT */
     supply: number;
     /* NFT is in Sell ? */
