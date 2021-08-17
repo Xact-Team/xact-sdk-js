@@ -24,7 +24,7 @@ export class TokenTransferDto {
 
 export class SellNFTDto {
     /* Account ID of the seller */
-    accountId: string;
+    fromAccountId: string;
     /* Unit Price per NFT in Hbar */
     hbarAmount: number;
     /* Quantity to Sell */
@@ -37,7 +37,7 @@ export class SellNFTDto {
 
 export class BuyNFTDto {
     /* Account ID of the Buyer */
-    accountId: string;
+    fromAccountId: string;
     /* Quantity to Buy */
     quantity: number;
     /* NFT */
