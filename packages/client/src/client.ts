@@ -3,8 +3,15 @@ import {RequestValidation} from './models/request.interface';
 import axios from 'axios';
 import {io} from 'socket.io-client';
 import {PaymentDto} from './models/payment.interface';
-import {GenerateQrCodeOpts, ScopeEnum, UserAccount} from './models/user.interface';
-import {BuyNFTDto, CreateNFTDto, SellNFTDto, TokenAssociateDto, TokenTransferDto,} from './models/token.interface';
+import {GenerateQrCodeOpts, RefreshAccountDTO, ScopeEnum, UserAccount} from './models/user.interface';
+import {
+    BuyNFTDto,
+    CreateNFTDto,
+    NFTForSale,
+    SellNFTDto,
+    TokenAssociateDto,
+    TokenTransferDto,
+} from './models/token.interface';
 import {ApiCall, listenForEvent} from './helpers/utils';
 
 export const API_URL: string = 'https://api.xact.ac/v1';
@@ -136,10 +143,22 @@ export class Client {
 
     /**
      * Sell a NFT
+     * @param sellNFT
      */
     sellNFT(sellNFT: SellNFTDto): Promise<void> {
         return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/sell-nft`, {
             ...sellNFT,
+            clientId: this.clientId
+        });
+    }
+
+    /**
+     * Delete a NFT from sell
+     * @param tokenId
+     */
+    deleteNFTFromSale({tokenId, socketId}: { tokenId: string, socketId: string }): Promise<void> {
+        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/delete-sell-nft/${tokenId}`, {
+            socketId,
             clientId: this.clientId
         });
     }
@@ -161,6 +180,21 @@ export class Client {
             ...buyNFT,
             clientId: this.clientId
         });
+    }
+
+    /**
+     * Refresh the account
+     */
+    refreshAccount(opts: RefreshAccountDTO): Promise<UserAccount> {
+        return ApiCall<UserAccount>(this.clientId, 'POST', `${API_URL}/xact/sdk/refresh`, {
+            accountId: opts.accountId,
+            scope: (opts && opts.scope) ? opts.scope : [ScopeEnum.PROFILE],
+        });
+    }
+
+    /* Get NFT For sale by TokenId */
+    getNFTForSaleByTokenId({tokenId}: { tokenId: string }): Promise<NFTForSale> {
+        return ApiCall<NFTForSale>(this.clientId, 'GET', `${API_URL}/xact/sdk/nft-for-sale?tokenId=${tokenId}`);
     }
 
     /*************************************************************/
@@ -208,6 +242,13 @@ export class Client {
      */
     sellNFTValidation() {
         return listenForEvent<RequestValidation<SellNFTDto>>(this.socket, 'xact.sellNFT');
+    }
+
+    /**
+     * Waiting for NFT Sell Deletion Validation
+     */
+    deleteSellNFTValidation() {
+        return listenForEvent<RequestValidation<void>>(this.socket, 'xact.deleteSellNFT');
     }
 
     /**

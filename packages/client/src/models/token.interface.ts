@@ -1,4 +1,4 @@
-import {NFT} from './user.interface';
+import {HederaEnvironment, NFT} from './user.interface';
 
 export class TokenAssociateDto {
     /* AccountId that associate the token */
@@ -40,8 +40,8 @@ export class BuyNFTDto {
     fromAccountId: string;
     /* Quantity to Buy */
     quantity: number;
-    /* NFT */
-    nft: NFT;
+    /* Token ID of the NFT */
+    tokenId: string;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
@@ -72,5 +72,20 @@ export class CreateNFTDto {
     fromAccountId: string;
     /* Uniq identifier for your socket id */
     socketId?: string;
+}
+
+export class NFTForSale {
+    /* Environment Used */
+    environment: HederaEnvironment;
+    /* Account ID of the NFT's Creator */
+    accountId: string;
+    /* Unit Price per NFT in Hbar */
+    hbarAmount: number;
+    /* Quantity to Sell */
+    quantity: number;
+    /* NFT */
+    nft: NFT;
+    /* QR Code - Scan It with Xact Wallet in order to buy*/
+    qrCode: string;
 }
 
