@@ -1,8 +1,8 @@
 import {Observable, Subject} from 'rxjs';
 
-import axios, { AxiosResponse } from 'axios';
+import axios, {AxiosError, AxiosResponse} from 'axios';
 
-export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH', path: string, body?): Promise<T> {
+export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH' | 'DELETE', path: string, body?): Promise<T> {
     return new Promise(async (resolve, reject) => {
         if (!clientId) {
             return Promise.reject('Please run await Client.initConnexion() first')
@@ -10,7 +10,9 @@ export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH', pat
 
         return getAxios<T>(verb, path, body).then((resp: AxiosResponse<T>) => {
             resolve(resp.data);
-        }).catch(reject);
+        }).catch((e: AxiosError)=>{
+            reject(e.response.data ? e.response.data.error : e.response.data);
+        });
     })
 
 }
@@ -23,6 +25,8 @@ function getAxios<T>(verb, path: string, body): Promise<AxiosResponse<T>> {
             return axios.get(path);
         case 'PATCH':
             return axios.patch(path, body);
+        case 'DELETE':
+            return axios.delete(path);
     }
 }
 

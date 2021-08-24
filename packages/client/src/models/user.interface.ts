@@ -4,7 +4,7 @@ export class UserAccount {
     /* AccountId of the user */
     accountId: string;
     /* Balance of the user in hbar */
-    balance: string;
+    balance: number;
     /* Profile Link to the user - Add SCOPE.PROFILE to scope*/
     profile: ProfileAccount | null;
     /* NFT Link to the user - Add SCOPE.NFT to scope */
@@ -30,8 +30,21 @@ export interface NFT {
     cid: string;
     /* Nb of Supply of the NFT */
     supply: number;
-    /* NFT is in Sell ? */
-    inSell: boolean;
+    /* NFT for sale */
+    forSale?: SaleNFT | null;
+}
+
+export interface SaleNFT {
+    /* Token ID of the NFT */
+    tokenId: string;
+    /* Account ID of the owner */
+    accountId: string;
+    /* Unit Price of the NFT */
+    hbarAmount: number;
+    /* Quantity of the NFT for Sale */
+    quantity: number;
+    /* Name of the NFT */
+    name: string
 }
 
 export enum HederaEnvironment {
@@ -57,4 +70,9 @@ export enum ScopeEnum {
 export interface GenerateQrCodeOpts {
     socketId?: string;
     scope?: ScopeEnum[];
+}
+
+export interface RefreshAccountDTO {
+    accountId: string,
+    scope?: ScopeEnum[]
 }
