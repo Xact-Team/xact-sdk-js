@@ -156,7 +156,7 @@ export class Client {
      * Delete a NFT from sell
      * @param tokenId
      */
-    deleteNFTFromSale({tokenId, socketId}: { tokenId: string, socketId: string }): Promise<void> {
+    deleteNFTFromSale({tokenId, socketId}: { tokenId: string, socketId?: string }): Promise<void> {
         return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/delete-sell-nft/${tokenId}`, {
             socketId,
             clientId: this.clientId
@@ -175,7 +175,7 @@ export class Client {
     /**
      * Buy a NFT
      */
-    buyNFT(buyNFT: SellNFTDto): Promise<void> {
+    buyNFT(buyNFT: BuyNFTDto): Promise<void> {
         return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/buy-nft`, {
             ...buyNFT,
             clientId: this.clientId
