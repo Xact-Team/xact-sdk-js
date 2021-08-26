@@ -7,7 +7,7 @@ import {GenerateQrCodeOpts, RefreshAccountDTO, ScopeEnum, UserAccount} from './m
 import {
     BuyNFTDto,
     CreateNFTDto,
-    NFTForSale,
+    NFTForSale, RemoveNFTDto,
     SellNFTDto,
     TokenAssociateDto,
     TokenTransferDto,
@@ -248,7 +248,7 @@ export class Client {
      * Waiting for NFT Sell Deletion Validation
      */
     deleteSellNFTValidation() {
-        return listenForEvent<RequestValidation<void>>(this.socket, 'xact.deleteSellNFT');
+        return listenForEvent<RequestValidation<RemoveNFTDto>>(this.socket, 'xact.deleteSellNFT');
     }
 
     /**

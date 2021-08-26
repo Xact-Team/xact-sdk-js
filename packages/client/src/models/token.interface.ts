@@ -46,6 +46,15 @@ export class BuyNFTDto {
     socketId?: string;
 }
 
+export class RemoveNFTDto {
+    /* Account ID of the Seller */
+    accountId: string;
+    /* Token ID of the NFT */
+    tokenId: string;
+    /* Uniq identifier for your socket id */
+    socketId?: string;
+}
+
 export enum CategoryNFT {
     ART = 'Art',
     DIGITAL_ART = 'Digital art',
