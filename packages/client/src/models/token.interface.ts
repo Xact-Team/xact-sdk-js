@@ -27,10 +27,10 @@ export class SellNFTDto {
     fromAccountId: string;
     /* Unit Price per NFT in Hbar */
     hbarAmount: number;
-    /* Quantity to Sell */
+    /* Quantity for sale */
     quantity: number;
-    /* NFT */
-    nft: NFT;
+    /* tokenId of the NFT */
+    tokenId: string;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
