@@ -64,6 +64,12 @@ export enum CategoryNFT {
     OTHER = "Other",
 }
 
+export interface customRoyaltyFee {
+    numerator: number,
+    denominator: number,
+    fallbackFee: number,
+}
+
 export class CreateNFTDto {
     /* Name of the NFT */
     name: string;
@@ -79,6 +85,8 @@ export class CreateNFTDto {
     supply: number;
     /* Which Account ID issue the NFT's Creation */
     fromAccountId: string;
+    /* Add Custom Fee - https://docs.hedera.com/guides/docs/sdks/tokens/custom-token-fees#royalty-fee */
+    customRoyaltyFee?: customRoyaltyFee;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }

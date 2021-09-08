@@ -25,7 +25,9 @@
       "^.+\\.[t|j]sx?$": "babel-jest"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "js-logger": "^1.6.1"
+  },
   "workspaces": [
     "packages/*"
   ]
