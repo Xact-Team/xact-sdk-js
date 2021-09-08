@@ -170,7 +170,7 @@ export class Client {
                 creator: createNFTDto.creator,
                 supply: createNFTDto.supply,
                 category: createNFTDto.category,
-                customFee: createNFTDto.customFee
+                customRoyaltyFee: createNFTDto.customRoyaltyFee
             },
             fromAccountId: createNFTDto.fromAccountId,
             socketId: createNFTDto.socketId,
