@@ -1,6 +1,7 @@
 import {Observable, Subject} from 'rxjs';
 
 import axios, {AxiosError, AxiosResponse} from 'axios';
+import Logger from 'js-logger';
 
 export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH' | 'DELETE', path: string, body?): Promise<T> {
     return new Promise(async (resolve, reject) => {
@@ -10,7 +11,8 @@ export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH' | 'D
 
         return getAxios<T>(verb, path, body).then((resp: AxiosResponse<T>) => {
             resolve(resp.data);
-        }).catch((e: AxiosError)=>{
+        }).catch((e: AxiosError) => {
+            Logger.error('Error ::', e.response.data ? e.response.data.error : e.response.data);
             reject(e.response.data ? e.response.data.error : e.response.data);
         });
     })
