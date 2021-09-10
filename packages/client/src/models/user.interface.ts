@@ -32,6 +32,8 @@ export interface NFT {
     supply: number;
     /* NFT for sale */
     forSale?: SaleNFT | null;
+    /* NFT Ids */
+    nftIds?: Array<string>
 }
 
 export interface SaleNFT {
