@@ -202,15 +202,6 @@ export class Client {
         });
     }
 
-    /**
-     * Get Xact Fees to Buy a NFT
-     * @param hbarAmount
-     * @param supportXact
-     */
-    getXactFeesBuyNFT(hbarAmount: number, supportXact: boolean = false): Promise<number> {
-        Logger.info('Getting Xact Fees to Buy a NFT...');
-        return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/buy-nft?amount=${hbarAmount}&support=${supportXact}`);
-    }
 
     /**
      * Buy a NFT
