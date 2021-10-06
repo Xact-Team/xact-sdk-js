@@ -31,6 +31,10 @@ export class SellNFTDto {
     quantity: number;
     /* tokenId of the NFT */
     tokenId: string;
+    /* The NFT could only be sell to accountId present on that list */
+    accountIds: string[];
+    /* Specify your custom fee */
+    customFee: { percentFee: number, escrowAccount: string }
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
