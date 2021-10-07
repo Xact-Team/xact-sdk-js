@@ -1,4 +1,5 @@
 import {HederaEnvironment, NFT} from './user.interface';
+import {MiddleManPayment} from './payment.interface';
 
 export class TokenAssociateDto {
     /* AccountId that associate the token */
@@ -31,6 +32,10 @@ export class SellNFTDto {
     quantity: number;
     /* tokenId of the NFT */
     tokenId: string;
+    /* The NFT could only be sell to accountId present on that list */
+    accountIds?: string[];
+    /* add a middle men in order to collect fees */
+    middleMen?: MiddleManPayment[];
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
