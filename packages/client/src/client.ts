@@ -4,7 +4,7 @@ import axios from 'axios';
 import {io} from 'socket.io-client';
 import {PaymentDto} from './models/payment.interface';
 import {GenerateQrCodeOpts, RefreshAccountDTO, ScopeEnum, UserAccount} from './models/user.interface';
-import Logger from 'js-logger';
+const Logger = require('js-logger');
 import {
     BuyNFTDto,
     CreateNFTDto,
