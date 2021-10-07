@@ -1,6 +1,6 @@
 {
   "name": "@xact-wallet-sdk/client",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "SDK for the xact-wallet application",
   "dependencies": {
     "axios": "^0.21.1",
