@@ -4,6 +4,7 @@
   "description": "SDK for the xact-wallet application",
   "dependencies": {
     "axios": "^0.21.1",
+    "js-logger": "^1.6.1",
     "lerna-jest": "^0.5.4",
     "rxjs": "^7.2.0",
     "socket.io-client": "^3.0.0"
