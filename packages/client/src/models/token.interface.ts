@@ -84,8 +84,10 @@ export class CreateNFTDto {
     category: CategoryNFT;
     /* Creator of the NFT */
     creator: string;
-    /* Media to linked to the NFT - base64 Format */
-    media: string;
+    /* cid linked to the NFT - IPFS Storage */
+    cid: string;
+    /* preview of the NFT */
+    preview?: string;
     /* Quantity of NFT to create */
     supply: number;
     /* Which Account ID issue the NFT's Creation */
