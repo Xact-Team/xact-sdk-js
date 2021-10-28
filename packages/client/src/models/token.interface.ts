@@ -86,8 +86,6 @@ export class CreateNFTDto {
     creator: string;
     /* cid linked to the NFT - IPFS Storage */
     cid: string;
-    /* preview of the NFT */
-    preview?: string;
     /* Quantity of NFT to create */
     supply: number;
     /* Which Account ID issue the NFT's Creation */
