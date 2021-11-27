@@ -195,11 +195,12 @@ export class Client {
      * Delete a NFT from sell
      * @param tokenId
      */
-    deleteNFTFromSale({tokenId, socketId}: { tokenId: string, socketId?: string }): Promise<void> {
+    deleteNFTFromSale({tokenId, socketId, nftIds}: { tokenId: string, nftIds: Array<string>, socketId?: string }): Promise<void> {
         Logger.info('Deleting the NFT from sale ::', tokenId);
         return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/delete-sell-nft/${tokenId}`, {
             socketId,
-            clientId: this.clientId
+            clientId: this.clientId,
+            nftIds,
         });
     }
 
