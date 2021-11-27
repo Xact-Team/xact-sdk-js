@@ -28,10 +28,12 @@ export class SellNFTDto {
     fromAccountId: string;
     /* Unit Price per NFT in Hbar */
     hbarAmount: number;
-    /* Quantity for sale */
-    quantity: number;
     /* tokenId of the NFT */
     tokenId: string;
+    /* nftIds for sale */
+    nftIds?: Array<string>;
+    /* Quantity for sale */
+    quantity?: number;
     /* The NFT could only be sell to accountId present on that list */
     accountIds?: string[];
     /* add a middle men in order to collect fees */
