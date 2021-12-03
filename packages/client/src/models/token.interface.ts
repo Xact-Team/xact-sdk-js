@@ -32,6 +32,8 @@ export class SellNFTDto {
     tokenId: string;
     /* nftIds for sale */
     nftIds?: Array<string>;
+    /* Sell the nftIds under one QR Code */
+    isCollection?: boolean;
     /* Quantity for sale */
     quantity?: number;
     /* The NFT could only be sell to accountId present on that list */
@@ -47,6 +49,8 @@ export class BuyNFTDto {
     fromAccountId: string;
     /* ID of the NFTs to Buy */
     nftIds?: Array<string>;
+    /* NFT to buy is linked to a collection */
+    collectionId?: string;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }

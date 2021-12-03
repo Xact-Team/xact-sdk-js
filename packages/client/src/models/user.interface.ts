@@ -31,24 +31,16 @@ export interface NFT {
     /* Nb of Supply of the NFT */
     supply: number;
     /* NFT for sale */
-    nftIdsForSale: Array<SaleNFT> | null;
+    nftIdsForSale: Array<SaleNFT>;
     /* NFT Ids */
     nftIds?: Array<string>
 }
 
 export interface SaleNFT {
-    /* Token ID of the NFT */
-    tokenId: string;
     /* nft ID of the NFT */
     nftId: string;
-    /* Account ID of the owner */
-    accountId: string;
-    /* Unit Price of the NFT */
-    hbarAmount: number;
-    /* Quantity of the NFT for Sale */
-    quantity: number;
-    /* Name of the NFT */
-    name: string
+    /* collection ID */
+    collectionId?: string;
 }
 
 export enum HederaEnvironment {
