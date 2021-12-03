@@ -26,7 +26,9 @@ export * from './models/payment.interface';
 export * from './models/token.interface';
 
 export interface Options {
-    debugLevel?: DebugLevel
+    debugLevel?: DebugLevel,
+    apiUrl?: string,
+    socketUrl?: string,
 }
 
 export enum DebugLevel {
@@ -40,13 +42,15 @@ Logger.useDefaults();
 export class Client {
     private readonly socket;
     private clientId;
+    private options;
 
     constructor({apiKey, options = {}}: { apiKey: string, options?: Options }) {
+        this.options = {...options, apiUrl: options.apiUrl || API_URL, socketUrl: options.socketUrl || SOCKET_URL};
         Logger.setLevel(Client.getLogger(options.debugLevel));
         axios.defaults.headers.common = {
             "Authorization": `X-API-KEY: ${apiKey}`,
         };
-        this.socket = io(SOCKET_URL, {
+        this.socket = io(this.options.socketUrl, {
             transports: ['websocket']
         });
     }
@@ -88,7 +92,7 @@ export class Client {
      */
     generateQRCode(opts?: GenerateQrCodeOpts): Promise<string> {
         Logger.info('Generating QR Code ::', opts);
-        return ApiCall<string>(this.clientId, 'POST', `${API_URL}/xact/getQRCode`, {
+        return ApiCall<string>(this.clientId, 'POST', `${this.options.apiUrl}/xact/getQRCode`, {
             scope: (opts && opts.scope) ? opts.scope : [ScopeEnum.PROFILE],
             socketId: (opts && opts.socketId) ? opts.socketId : null,
             clientId: this.clientId
@@ -102,7 +106,7 @@ export class Client {
      */
     getXactFeesPayment(hbarAmount: number, supportXact: boolean = false): Promise<number> {
         Logger.info('Getting Xact Fees for Payment...');
-        return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/payment?amount=${hbarAmount}&support=${supportXact}`);
+        return ApiCall<number>(this.clientId, 'GET', `${this.options.apiUrl}/xact/fees/payment?amount=${hbarAmount}&support=${supportXact}`);
     }
 
     /**
@@ -111,7 +115,7 @@ export class Client {
      */
     pay(paymentDto: PaymentDto): Promise<void> {
         Logger.info('Sending Hbar ::', paymentDto);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/pay`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/pay`, {
             ...paymentDto,
             clientId: this.clientId
         });
@@ -123,7 +127,7 @@ export class Client {
      */
     associate(tokenAssociationDto: TokenAssociateDto): Promise<void> {
         Logger.info('Associating token ::', tokenAssociationDto);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/associate-token`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/associate-token`, {
             ...tokenAssociationDto,
             clientId: this.clientId
         });
@@ -134,7 +138,7 @@ export class Client {
      */
     getXactFeesTransfer(): Promise<number> {
         Logger.info('Getting Xact Fees for Transfer');
-        return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/transfer-token`);
+        return ApiCall<number>(this.clientId, 'GET', `${this.options.apiUrl}/xact/fees/transfer-token`);
     }
 
     /**
@@ -143,7 +147,7 @@ export class Client {
      */
     transfer({fromAccountId, toAccountId, tokenId, supply = 1, socketId}: TokenTransferDto): Promise<void> {
         Logger.info('Transfering the token...');
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/transfer-token`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/transfer-token`, {
             fromAccountId, toAccountId, tokenId, supply, socketId,
             clientId: this.clientId
         });
@@ -154,7 +158,7 @@ export class Client {
      */
     getXactFeesCreateNFT(): Promise<number> {
         Logger.info('Getting Xact Fees for NFT Creation');
-        return ApiCall<number>(this.clientId, 'GET', `${API_URL}/xact/fees/create-token`);
+        return ApiCall<number>(this.clientId, 'GET', `${this.options.apiUrl}/xact/fees/create-token`);
     }
 
     /**
@@ -163,7 +167,7 @@ export class Client {
      */
     async createNFT(createNFTDto: CreateNFTDto): Promise<void> {
         Logger.info('Creating the NFT ::', createNFTDto);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/create-nft`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/create-nft`, {
             ...createNFTDto,
             nft: {
                 name: createNFTDto.name,
@@ -185,7 +189,7 @@ export class Client {
      */
     sellNFT(sellNFT: SellNFTDto): Promise<void> {
         Logger.info('Selling the NFT ::', sellNFT);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/sell-nft`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/sell-nft`, {
             ...sellNFT,
             clientId: this.clientId
         });
@@ -195,9 +199,13 @@ export class Client {
      * Delete a NFT from sell
      * @param tokenId
      */
-    deleteNFTFromSale({tokenId, socketId, nftIds}: { tokenId: string, nftIds: Array<string>, socketId?: string }): Promise<void> {
+    deleteNFTFromSale({
+                          tokenId,
+                          socketId,
+                          nftIds
+                      }: { tokenId: string, nftIds: Array<string>, socketId?: string }): Promise<void> {
         Logger.info('Deleting the NFT from sale ::', tokenId);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/delete-sell-nft/${tokenId}`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/delete-sell-nft/${tokenId}`, {
             socketId,
             clientId: this.clientId,
             nftIds,
@@ -208,9 +216,9 @@ export class Client {
     /**
      * Buy a NFT
      */
-    buyNFT(buyNFT: BuyNFTDto): Promise<void> {
+    buyNFT(tokenId: string, buyNFT: BuyNFTDto): Promise<void> {
         Logger.info('Buying the NFT ::', buyNFT);
-        return ApiCall<void>(this.clientId, 'POST', `${API_URL}/xact/buy-nft`, {
+        return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/buy-nft/${tokenId}`, {
             ...buyNFT,
             clientId: this.clientId
         });
@@ -221,7 +229,7 @@ export class Client {
      */
     refreshAccount(opts: RefreshAccountDTO): Promise<UserAccount> {
         Logger.info('Refreshing the account ::', opts);
-        return ApiCall<UserAccount>(this.clientId, 'POST', `${API_URL}/xact/sdk/refresh`, {
+        return ApiCall<UserAccount>(this.clientId, 'POST', `${this.options.apiUrl}/xact/sdk/refresh`, {
             accountId: opts.accountId,
             scope: (opts && opts.scope) ? opts.scope : [ScopeEnum.PROFILE],
         });
@@ -229,7 +237,7 @@ export class Client {
 
     /* Get NFT For sale by TokenId */
     getNFTForSaleByTokenId({tokenId}: { tokenId: string }): Promise<NFTForSale> {
-        return ApiCall<NFTForSale>(this.clientId, 'GET', `${API_URL}/xact/sdk/nft-for-sale?tokenId=${tokenId}`);
+        return ApiCall<NFTForSale>(this.clientId, 'GET', `${this.options.apiUrl}/xact/sdk/nft-for-sale?tokenId=${tokenId}`);
     }
 
     /*************************************************************/
