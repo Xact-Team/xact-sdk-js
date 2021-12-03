@@ -19,7 +19,7 @@ export interface NFT {
     /* Name of the NFT */
     name: string;
     /* Description of the NFT */
-    description: string;
+    description: string | {description: string, type: string};
     /* Category of the NFT */
     category: CategoryNFT;
     /* Creator of the NFT */
