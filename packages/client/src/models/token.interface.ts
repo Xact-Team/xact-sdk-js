@@ -45,10 +45,8 @@ export class SellNFTDto {
 export class BuyNFTDto {
     /* Account ID of the Buyer */
     fromAccountId: string;
-    /* Quantity to Buy */
-    quantity: number;
-    /* Token ID of the NFT */
-    tokenId: string;
+    /* ID of the NFTs to Buy */
+    nftIds?: Array<string>;
     /* Uniq identifier for your socket id */
     socketId?: string;
 }
