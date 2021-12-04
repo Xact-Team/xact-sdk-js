@@ -203,7 +203,7 @@ export class Client {
                           tokenId,
                           socketId,
                           nftIds
-                      }: { tokenId: string, nftIds: Array<string>, socketId?: string }): Promise<void> {
+                      }: { tokenId: string, nftIds?: Array<string>, socketId?: string }): Promise<void> {
         Logger.info('Deleting the NFT from sale ::', tokenId);
         return ApiCall<void>(this.clientId, 'POST', `${this.options.apiUrl}/xact/delete-sell-nft/${tokenId}`, {
             socketId,
@@ -236,8 +236,8 @@ export class Client {
     }
 
     /* Get NFT For sale by TokenId */
-    getNFTForSaleByTokenId({tokenId}: { tokenId: string }): Promise<NFTForSale> {
-        return ApiCall<NFTForSale>(this.clientId, 'GET', `${this.options.apiUrl}/xact/sdk/nft-for-sale?tokenId=${tokenId}`);
+    getNFTForSaleByTokenId({tokenId, nftId}: { tokenId: string, nftId?: string }): Promise<NFTForSale> {
+        return ApiCall<NFTForSale>(this.clientId, 'GET', `${this.options.apiUrl}/xact/sdk/nft-for-sale?tokenId=${tokenId}&nftId=${nftId}`);
     }
 
     /*************************************************************/
