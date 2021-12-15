@@ -236,8 +236,8 @@ export class Client {
     }
 
     /* Get NFT For sale by TokenId */
-    getNFTForSaleByTokenId({tokenId, nftId}: { tokenId: string, nftId?: string }): Promise<NFTForSale> {
-        return ApiCall<NFTForSale>(this.clientId, 'GET', `${this.options.apiUrl}/xact/sdk/nft-for-sale?tokenId=${tokenId}&nftId=${nftId}`);
+    getNFTForSaleByTokenId({tokenId, sellerAccountId, nftId}: { tokenId: string, sellerAccountId: string, nftId?: string }): Promise<NFTForSale> {
+        return ApiCall<NFTForSale>(this.clientId, 'GET', `${this.options.apiUrl}/xact/sdk/nft-for-sale?tokenId=${tokenId}&sellerAccountId=${sellerAccountId}&nftId=${nftId}`);
     }
 
     /*************************************************************/
