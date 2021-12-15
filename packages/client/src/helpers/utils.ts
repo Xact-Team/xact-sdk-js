@@ -12,7 +12,6 @@ export function ApiCall<T>(clientId: string, verb: 'POST' | 'GET' | 'PATCH' | 'D
         return getAxios<T>(verb, path, body).then((resp: AxiosResponse<T>) => {
             resolve(resp.data);
         }).catch((e: AxiosError) => {
-            Logger.error('Error ::', e.response.data ? e.response.data.error : e.response.data);
             reject(e.response.data ? e.response.data.error : e.response.data);
         });
     })
