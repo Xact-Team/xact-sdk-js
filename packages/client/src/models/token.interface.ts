@@ -47,6 +47,8 @@ export class SellNFTDto {
 export class BuyNFTDto {
     /* Account ID of the Buyer */
     fromAccountId: string;
+    /* Account ID of the Seller */
+    sellerAccountId: string;
     /* ID of the NFTs to Buy */
     nftIds?: Array<string>;
     /* NFT to buy is linked to a collection */
